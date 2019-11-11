@@ -7,4 +7,7 @@
 
     <!-- AppInfo -->
     <string name="app_info_title">アプリ情報</string>
+    <string name="app_info_privacy">プライバシーポリシー</string>
+    <string name="app_info_oss">オープンソースライセンス</string>
+    <string name="app_info_version">アプリバージョン</string>
 </resources>
