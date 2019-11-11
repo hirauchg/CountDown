@@ -11,6 +11,7 @@ class AppInfoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_app_info)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        title = getString(R.string.app_info_title)
     }
 
     override fun onSupportNavigateUp(): Boolean {

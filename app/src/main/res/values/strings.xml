@@ -4,4 +4,7 @@
     <!-- Main -->
     <string name="main_menu_add">タイマーの追加</string>
     <string name="main_menu_info">アプリ情報</string>
+
+    <!-- AppInfo -->
+    <string name="app_info_title">アプリ情報</string>
 </resources>
