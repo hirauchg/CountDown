@@ -5,17 +5,21 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hirauchi.countdown.R
 import com.hirauchi.countdown.adapter.TimerListAdapter
 import com.hirauchi.countdown.manager.TimerManager
 import com.hirauchi.countdown.model.Timer
+import android.widget.LinearLayout
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var mTimerList: List<Timer>
     lateinit var mTimerManager: TimerManager
+    lateinit var mAdapter: TimerListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,10 +27,11 @@ class MainActivity : AppCompatActivity() {
 
         val recyclerView : RecyclerView = findViewById(R.id.recycler_view)
         recyclerView.setLayoutManager(LinearLayoutManager(this))
-        val adapter = TimerListAdapter()
-        recyclerView.setAdapter(adapter)
+        mAdapter = TimerListAdapter()
+        recyclerView.setAdapter(mAdapter)
 
         mTimerManager = TimerManager(this)
+        loadTimerList()
     }
 
     override fun onDestroy() {
@@ -42,7 +47,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.getItemId()) {
             R.id.main_menu_add -> {
-                
+                showAddTimerDialog()
             }
 
             R.id.main_menu_info -> startActivity(Intent(this, AppInfoActivity::class.java))
@@ -50,5 +55,26 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun showAddTimerDialog() {
+        val container = LinearLayout(this)
+        val editText = EditText(this)
+        val editTextParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        editTextParams.setMargins(56, 56, 56, 0)
+        container.addView(editText, editTextParams)
 
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.main_add_timer_dialog_title))
+            .setView(container)
+            .setPositiveButton(getString(R.string.ok)) { _, _ ->
+                mTimerManager.addTimer(editText.text.toString())
+                loadTimerList()
+            }
+            .setNegativeButton(getString(R.string.cancel), null)
+            .show()
+    }
+
+    private fun loadTimerList() {
+        mTimerList = mTimerManager.getTimerList()
+        mAdapter.setTimerList(mTimerList)
+    }
 }

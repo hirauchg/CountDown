@@ -4,7 +4,8 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="textColor">#000</color>
+
+    <color name="textColor1">#000</color>
 
     <!-- Main -->
     <color name="timer_border">#000</color>
