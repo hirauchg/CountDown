@@ -33,12 +33,12 @@ class TimerManager(context: Context) {
         return timerList
     }
 
-    fun addTimer(name: String, time: Long) {
+    fun addTimer(name: String) {
         val db = mDBHelper.writableDatabase
 
         val values = ContentValues().apply {
             put(TimerContract.TimerEntry.COLUMN_NAME, name)
-            put(TimerContract.TimerEntry.COLUMN_TIME, time)
+            put(TimerContract.TimerEntry.COLUMN_TIME, 60000) // TODO
         }
 
         db?.insert(TimerContract.TimerEntry.TABLE_NAME, null, values)
