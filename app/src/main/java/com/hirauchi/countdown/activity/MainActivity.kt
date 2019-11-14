@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(), TimerListAdapter.OnTimerListener {
 
         val recyclerView : RecyclerView = findViewById(R.id.recycler_view)
         recyclerView.setLayoutManager(LinearLayoutManager(this))
-        mAdapter = TimerListAdapter(this)
+        mAdapter = TimerListAdapter(this, this)
         recyclerView.setAdapter(mAdapter)
 
         mTimerManager = TimerManager(this)
@@ -92,5 +92,10 @@ class MainActivity : AppCompatActivity(), TimerListAdapter.OnTimerListener {
 
     private fun deleteTimer(id: Int) {
         mTimerManager.deleteTimer(id)
+    }
+
+    override fun onUpdateTimer(timer: Timer) {
+        mTimerManager.updateTimer(timer)
+        loadTimerList()
     }
 }

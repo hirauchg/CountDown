@@ -38,20 +38,20 @@ class TimerManager(context: Context) {
 
         val values = ContentValues().apply {
             put(TimerContract.TimerEntry.COLUMN_NAME, name)
-            put(TimerContract.TimerEntry.COLUMN_TIME, 60000) // TODO
         }
 
         db?.insert(TimerContract.TimerEntry.TABLE_NAME, null, values)
     }
 
-    fun updateTimer(id: Int, name: String) {
+    fun updateTimer(timer: Timer) {
         val db = mDBHelper.writableDatabase
 
         val values = ContentValues().apply {
-            put(TimerContract.TimerEntry.COLUMN_NAME, name)
+            put(TimerContract.TimerEntry.COLUMN_NAME, timer.name)
+            put(TimerContract.TimerEntry.COLUMN_TIME, timer.time)
         }
 
-        db.update(TimerContract.TimerEntry.TABLE_NAME, values, "${BaseColumns._ID} = ?", arrayOf(id.toString()))
+        db.update(TimerContract.TimerEntry.TABLE_NAME, values, "${BaseColumns._ID} = ?", arrayOf(timer.id.toString()))
     }
 
     fun deleteTimer(id: Int) {
