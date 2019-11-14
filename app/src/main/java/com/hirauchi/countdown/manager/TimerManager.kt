@@ -38,7 +38,6 @@ class TimerManager(context: Context) {
 
         val values = ContentValues().apply {
             put(TimerContract.TimerEntry.COLUMN_NAME, name)
-            put(TimerContract.TimerEntry.COLUMN_TIME, 60000) // TODO
         }
 
         db?.insert(TimerContract.TimerEntry.TABLE_NAME, null, values)

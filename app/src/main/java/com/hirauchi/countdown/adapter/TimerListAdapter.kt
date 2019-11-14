@@ -9,6 +9,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hirauchi.countdown.R
 import com.hirauchi.countdown.model.Timer
+import java.text.SimpleDateFormat
+import java.util.*
 
 class TimerListAdapter(val mListener: OnTimerListener): RecyclerView.Adapter<TimerListAdapter.ViewHolder>() {
 
@@ -30,8 +32,10 @@ class TimerListAdapter(val mListener: OnTimerListener): RecyclerView.Adapter<Tim
         val timer = mTimerList.get(position)
 
         holder.mTimerName.text = timer.name
-//        holder.mTimerTime.text = timer.time
-        holder.mTimerTime.text = "00:00:00" // TODO
+
+        val dataFormat = SimpleDateFormat("HH:mm:ss", Locale.US)
+        dataFormat.timeZone = TimeZone.getTimeZone("UTC")
+        holder.mTimerTime.text = dataFormat.format(timer.time)
 
         holder.mDelete.setOnClickListener {
             mListener.onDeleteClicked(timer)
