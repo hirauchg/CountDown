@@ -15,7 +15,7 @@ import com.hirauchi.countdown.manager.TimerManager
 import com.hirauchi.countdown.model.Timer
 import android.widget.LinearLayout
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), TimerListAdapter.OnTimerListener {
 
     lateinit var mTimerList: List<Timer>
     lateinit var mTimerManager: TimerManager
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         val recyclerView : RecyclerView = findViewById(R.id.recycler_view)
         recyclerView.setLayoutManager(LinearLayoutManager(this))
-        mAdapter = TimerListAdapter()
+        mAdapter = TimerListAdapter(this)
         recyclerView.setAdapter(mAdapter)
 
         mTimerManager = TimerManager(this)
@@ -76,5 +76,21 @@ class MainActivity : AppCompatActivity() {
     private fun loadTimerList() {
         mTimerList = mTimerManager.getTimerList()
         mAdapter.setTimerList(mTimerList)
+    }
+
+    override fun onDeleteClicked(timer: Timer) {
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.main_delete_timer_dialog_title))
+            .setMessage(getString(R.string.main_delete_timer_dialog_message, timer.name))
+            .setPositiveButton(getString(R.string.ok)) { _, _ ->
+                deleteTimer(timer.id)
+                loadTimerList()
+            }
+            .setNegativeButton(getString(R.string.cancel), null)
+            .show()
+    }
+
+    private fun deleteTimer(id: Int) {
+        mTimerManager.deleteTimer(id)
     }
 }

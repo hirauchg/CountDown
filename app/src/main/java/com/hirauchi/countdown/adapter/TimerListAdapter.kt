@@ -10,9 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hirauchi.countdown.R
 import com.hirauchi.countdown.model.Timer
 
-class TimerListAdapter: RecyclerView.Adapter<TimerListAdapter.ViewHolder>() {
+class TimerListAdapter(val mListener: OnTimerListener): RecyclerView.Adapter<TimerListAdapter.ViewHolder>() {
 
     lateinit var mTimerList: List<Timer>
+
+    interface OnTimerListener {
+        fun onDeleteClicked(timer: Timer)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_timer, parent, false))
@@ -30,6 +34,7 @@ class TimerListAdapter: RecyclerView.Adapter<TimerListAdapter.ViewHolder>() {
         holder.mTimerTime.text = "00:00:00" // TODO
 
         holder.mDelete.setOnClickListener {
+            mListener.onDeleteClicked(timer)
         }
 
         holder.mStart.setOnClickListener {

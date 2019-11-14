@@ -8,6 +8,8 @@
     <string name="main_menu_add">タイマーの追加</string>
     <string name="main_menu_info">アプリ情報</string>
     <string name="main_add_timer_dialog_title">タイマーの追加</string>
+    <string name="main_delete_timer_dialog_title">タイマーの削除</string>
+    <string name="main_delete_timer_dialog_message">「%1$s」を削除しますか？</string>
     <string name="main_timer_start">start</string>
     <string name="main_timer_stop">stop</string>
 
