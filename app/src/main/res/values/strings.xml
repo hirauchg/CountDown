@@ -12,6 +12,7 @@
     <string name="main_delete_timer_dialog_message">「%1$s」を削除しますか？</string>
     <string name="main_timer_start">start</string>
     <string name="main_timer_stop">stop</string>
+    <string name="main_name_change_dialog_title">名前の変更</string>
     <string name="main_timer_hour_unit">時間</string>
     <string name="main_timer_minute_unit">分</string>
     <string name="main_timer_second_unit">秒</string>

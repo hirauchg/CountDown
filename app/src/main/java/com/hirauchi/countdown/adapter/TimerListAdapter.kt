@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.hirauchi.countdown.R
 import com.hirauchi.countdown.model.Timer
@@ -34,6 +35,9 @@ class TimerListAdapter(val mContext: Context, val mListener: OnTimerListener): R
         val timer = mTimerList.get(position)
 
         holder.mTimerName.text = timer.name
+        holder.mTimerName.setOnClickListener {
+            showNameChangeDialog(timer)
+        }
 
         val dataFormat = SimpleDateFormat("HH:mm:ss", Locale.US)
         dataFormat.timeZone = TimeZone.getTimeZone("UTC")
@@ -51,6 +55,25 @@ class TimerListAdapter(val mContext: Context, val mListener: OnTimerListener): R
 
         holder.mStop.setOnClickListener {
         }
+    }
+
+    fun showNameChangeDialog(timer: Timer) {
+        val container = LinearLayout(mContext)
+        val editText = EditText(mContext)
+        editText.setText(timer.name)
+        val editTextParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        editTextParams.setMargins(56, 56, 56, 0)
+        container.addView(editText, editTextParams)
+
+        AlertDialog.Builder(mContext)
+                .setTitle(mContext.getString(R.string.main_name_change_dialog_title))
+                .setView(container)
+                .setPositiveButton(mContext.getString(R.string.ok)) { _, _ ->
+                    timer.name = editText.text.toString()
+                    mListener.onUpdateTimer(timer)
+                }
+                .setNegativeButton(mContext.getString(R.string.cancel), null)
+                .show()
     }
 
     fun showTimerPickerDialog(timer: Timer) {
@@ -77,6 +100,7 @@ class TimerListAdapter(val mContext: Context, val mListener: OnTimerListener): R
             val unit = TextView(mContext)
             unit.text = unitTextList[i]
             unit.gravity = Gravity.CENTER
+            unit.setTextColor(ContextCompat.getColor(mContext, R.color.textColor1))
 
             container.addView(picker, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1F))
             container.addView(unit, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, unitWeightList[i]))
