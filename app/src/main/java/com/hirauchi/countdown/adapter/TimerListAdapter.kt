@@ -9,14 +9,24 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.hirauchi.countdown.CountDown
+import com.hirauchi.countdown.OnCountDownListener
 import com.hirauchi.countdown.R
 import com.hirauchi.countdown.model.Timer
 import java.text.SimpleDateFormat
 import java.util.*
 
-class TimerListAdapter(val mContext: Context, val mListener: OnTimerListener): RecyclerView.Adapter<TimerListAdapter.ViewHolder>() {
+class TimerListAdapter(val mContext: Context, val mListener: OnTimerListener): RecyclerView.Adapter<TimerListAdapter.ViewHolder>(), OnCountDownListener {
 
+    private val COUNT_DOWN_INTERVAL: Long = 10
+
+    lateinit var mTimerTime: TextView
+    lateinit var mStart: Button
     lateinit var mTimerList: List<Timer>
+
+    private val mDataFormat = SimpleDateFormat("HH:mm:ss", Locale.US)
+    private var mIsStarting = false
+    private var mCurrentTime: Long = 0
 
     interface OnTimerListener {
         fun onDeleteClicked(timer: Timer)
@@ -34,14 +44,16 @@ class TimerListAdapter(val mContext: Context, val mListener: OnTimerListener): R
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val timer = mTimerList.get(position)
 
+        var countDown = CountDown(timer.time, COUNT_DOWN_INTERVAL, this)
+
         holder.mTimerName.text = timer.name
         holder.mTimerName.setOnClickListener {
             showNameChangeDialog(timer)
         }
 
-        val dataFormat = SimpleDateFormat("HH:mm:ss", Locale.US)
-        dataFormat.timeZone = TimeZone.getTimeZone("UTC")
-        holder.mTimerTime.text = dataFormat.format(timer.time)
+        mDataFormat.timeZone = TimeZone.getTimeZone("UTC")
+        mTimerTime = holder.mTimerTime
+        holder.mTimerTime.text = mDataFormat.format(timer.time)
         holder.mTimerTime.setOnClickListener {
             showTimerPickerDialog(timer)
         }
@@ -50,11 +62,38 @@ class TimerListAdapter(val mContext: Context, val mListener: OnTimerListener): R
             mListener.onDeleteClicked(timer)
         }
 
+        mStart = holder.mStart
         holder.mStart.setOnClickListener {
+            if (!mIsStarting) {
+                countDown.start()
+                holder.mStart.setText(R.string.main_timer_stop)
+            } else {
+                countDown.cancel()
+                countDown = CountDown(mCurrentTime, COUNT_DOWN_INTERVAL, this)
+                holder.mStart.setText(R.string.main_timer_start)
+            }
+
+            mIsStarting = !mIsStarting
         }
 
-        holder.mStop.setOnClickListener {
+        holder.mReset.setOnClickListener {
+            countDown.cancel()
+            countDown = CountDown(timer.time, COUNT_DOWN_INTERVAL, this)
+            holder.mTimerTime.text = mDataFormat.format(timer.time)
+            mStart.isEnabled = true
+            holder.mStart.setText(R.string.main_timer_start)
+            mIsStarting = false
         }
+    }
+
+    override fun onTick(millisUntilFinished: Long) {
+        mCurrentTime = millisUntilFinished
+        mTimerTime.setText(mDataFormat.format(millisUntilFinished))
+    }
+
+    override fun onFinish() {
+        mTimerTime.setText(mDataFormat.format(0))
+        mStart.isEnabled = false
     }
 
     fun showNameChangeDialog(timer: Timer) {
@@ -131,6 +170,6 @@ class TimerListAdapter(val mContext: Context, val mListener: OnTimerListener): R
         val mTimerTime: TextView = view.findViewById(R.id.timer_time)
         val mDelete: ImageView = view.findViewById(R.id.delete)
         val mStart: Button = view.findViewById(R.id.start)
-        val mStop: Button = view.findViewById(R.id.stop)
+        val mReset: Button = view.findViewById(R.id.reset)
     }
 }
