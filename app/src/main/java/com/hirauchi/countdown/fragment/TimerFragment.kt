@@ -1,6 +1,11 @@
 package com.hirauchi.countdown.fragment
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.Gravity
@@ -9,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.hirauchi.countdown.R
@@ -18,11 +24,13 @@ import java.util.*
 
 class TimerFragment : Fragment() {
 
+    private val COUNT_DOWN_INTERVAL: Long = 10
+    private val CHANNEL_ID = "cannel_id_timer"
+    private val CHANNEL_NAME = "cannel_name_timer"
+
     private lateinit var mContext: Context
     private lateinit var mTimer: Timer
     private lateinit var mListener: OnTimerListener
-
-    private val COUNT_DOWN_INTERVAL: Long = 10
 
     lateinit var mTimerTime: TextView
     lateinit var mStart: Button
@@ -181,6 +189,23 @@ class TimerFragment : Fragment() {
             .show()
     }
 
+    private fun createNotification() {
+        val notificationManager = mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val cannel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT)
+            notificationManager.createNotificationChannel(cannel)
+        }
+
+        val notification = NotificationCompat.Builder(mContext, CHANNEL_ID).apply {
+            setSmallIcon(R.drawable.ic_notification)
+            setContentTitle(mContext.getString(R.string.app_name))
+            setContentText(mContext.getString(R.string.main_notification_text, mTimer.name))
+        }.build()
+
+        notificationManager.notify(mTimer.id, notification)
+    }
+
     inner class CountDown(millisInFuture: Long, countDownInterval: Long) : CountDownTimer(millisInFuture, countDownInterval) {
 
         override fun onTick(millisUntilFinished: Long) {
@@ -191,6 +216,7 @@ class TimerFragment : Fragment() {
         override fun onFinish() {
             mTimerTime.setText(mDataFormat.format(0))
             mStart.isEnabled = false
+            createNotification()
         }
     }
 }
