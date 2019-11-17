@@ -15,6 +15,22 @@ class TimerManager(context: Context) {
         mDBHelper.close()
     }
 
+    fun getTimer(id: Long): Timer? {
+        val db = mDBHelper.readableDatabase
+
+        val cursor = db.query(TimerContract.TimerEntry.TABLE_NAME, null, "${BaseColumns._ID} = ?", arrayOf(id.toString()), null, null, null)
+        with(cursor) {
+            while (moveToNext()) {
+                return Timer(
+                    getInt(getColumnIndexOrThrow(BaseColumns._ID)),
+                    getString(getColumnIndexOrThrow(TimerContract.TimerEntry.COLUMN_NAME)),
+                    getLong(getColumnIndexOrThrow(TimerContract.TimerEntry.COLUMN_TIME)))
+            }
+        }
+
+        return null
+    }
+
     fun getTimerList(): List<Timer> {
         val db = mDBHelper.readableDatabase
 
@@ -33,14 +49,14 @@ class TimerManager(context: Context) {
         return timerList
     }
 
-    fun addTimer(name: String) {
+    fun addTimer(name: String): Long? {
         val db = mDBHelper.writableDatabase
 
         val values = ContentValues().apply {
             put(TimerContract.TimerEntry.COLUMN_NAME, name)
         }
 
-        db?.insert(TimerContract.TimerEntry.TABLE_NAME, null, values)
+        return db?.insert(TimerContract.TimerEntry.TABLE_NAME, null, values)
     }
 
     fun updateTimer(timer: Timer) {

@@ -6,32 +6,34 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
+import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.hirauchi.countdown.R
-import com.hirauchi.countdown.adapter.TimerListAdapter
 import com.hirauchi.countdown.manager.TimerManager
 import com.hirauchi.countdown.model.Timer
 import android.widget.LinearLayout
+import com.hirauchi.countdown.fragment.TimerFragment
 
-class MainActivity : AppCompatActivity(), TimerListAdapter.OnTimerListener {
+class MainActivity : AppCompatActivity(), TimerFragment.OnTimerListener {
 
     lateinit var mTimerList: List<Timer>
     lateinit var mTimerManager: TimerManager
-    lateinit var mAdapter: TimerListAdapter
+
+    lateinit var mContainer: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val recyclerView : RecyclerView = findViewById(R.id.recycler_view)
-        recyclerView.setLayoutManager(LinearLayoutManager(this))
-        mAdapter = TimerListAdapter(this, this)
-        recyclerView.setAdapter(mAdapter)
+        mContainer = findViewById(R.id.container)
 
         mTimerManager = TimerManager(this)
-        loadTimerList()
+        mTimerList = mTimerManager.getTimerList()
+
+        mContainer.removeAllViews()
+        for (timer in mTimerList) {
+            showTimer(timer)
+        }
     }
 
     override fun onDestroy() {
@@ -66,16 +68,10 @@ class MainActivity : AppCompatActivity(), TimerListAdapter.OnTimerListener {
             .setTitle(getString(R.string.main_add_timer_dialog_title))
             .setView(container)
             .setPositiveButton(getString(R.string.ok)) { _, _ ->
-                mTimerManager.addTimer(editText.text.toString())
-                loadTimerList()
+                addTimer(editText.text.toString())
             }
             .setNegativeButton(getString(R.string.cancel), null)
             .show()
-    }
-
-    private fun loadTimerList() {
-        mTimerList = mTimerManager.getTimerList()
-        mAdapter.setTimerList(mTimerList)
     }
 
     override fun onDeleteClicked(timer: Timer) {
@@ -84,18 +80,34 @@ class MainActivity : AppCompatActivity(), TimerListAdapter.OnTimerListener {
             .setMessage(getString(R.string.main_delete_timer_dialog_message, timer.name))
             .setPositiveButton(getString(R.string.ok)) { _, _ ->
                 deleteTimer(timer.id)
-                loadTimerList()
             }
             .setNegativeButton(getString(R.string.cancel), null)
             .show()
     }
 
+    private fun showTimer(timer: Timer) {
+        val frame = FrameLayout(this)
+        frame.id = timer.id
+        mContainer.addView(frame)
+
+        supportFragmentManager.beginTransaction().replace(frame.id, TimerFragment.newInstance(timer)).commit()
+    }
+
+    private fun addTimer(name: String) {
+        mTimerManager.addTimer(name)?.let {
+            mTimerManager.getTimer(it)?.let {
+                showTimer(it)
+            }
+        }
+    }
+
     private fun deleteTimer(id: Int) {
         mTimerManager.deleteTimer(id)
+        mContainer.removeView(mContainer.findViewById<FrameLayout>(id))
     }
 
     override fun onUpdateTimer(timer: Timer) {
         mTimerManager.updateTimer(timer)
-        loadTimerList()
+        supportFragmentManager.beginTransaction().replace(timer.id, TimerFragment.newInstance(timer)).commit()
     }
 }
