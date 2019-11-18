@@ -1,7 +1,6 @@
 package com.hirauchi.countdown.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -14,11 +13,10 @@ import com.hirauchi.countdown.model.Timer
 import android.widget.LinearLayout
 import com.hirauchi.countdown.fragment.TimerFragment
 
-class MainActivity : AppCompatActivity(), TimerFragment.OnTimerListener {
+class MainActivity : BaseActivity(), TimerFragment.OnTimerListener {
 
     lateinit var mTimerList: List<Timer>
     lateinit var mTimerManager: TimerManager
-
     lateinit var mContainer: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
