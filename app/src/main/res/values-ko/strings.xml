@@ -1,0 +1,28 @@
+<resources>
+    <!-- Common -->
+    <string name="app_name">CountDown</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- Main -->
+    <string name="main_menu_add">타이머 추가</string>
+    <string name="main_menu_info">응용 프로그램 정보</string>
+    <string name="main_add_timer_dialog_title">타이머 추가</string>
+    <string name="main_delete_timer_dialog_title">타이머 삭제</string>
+    <string name="main_delete_timer_dialog_message">"%1$s" 을 삭제 하시겠습니까?</string>
+    <string name="main_timer_start">start</string>
+    <string name="main_timer_stop">stop</string>
+    <string name="main_timer_reset">reset</string>
+    <string name="main_name_change_dialog_title">이름 변경</string>
+    <string name="main_timer_hour_unit">：</string>
+    <string name="main_timer_minute_unit">：</string>
+    <string name="main_timer_second_unit"></string>
+    <string name="main_timer_select_dialog_title">시간을 선택하십시오</string>
+    <string name="main_notification_text">"%1$s" 가 종료되었습니다</string>
+
+    <!-- AppInfo -->
+    <string name="app_info_title">응용 프로그램 정보</string>
+    <string name="app_info_privacy">개인 정보 보호 정책</string>
+    <string name="app_info_oss">오픈 소스 라이센스</string>
+    <string name="app_info_version">응용 프로그램 버전</string>
+</resources>

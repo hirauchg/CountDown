@@ -1,0 +1,28 @@
+<resources>
+    <!-- Common -->
+    <string name="app_name">Cuenta regresiva</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancelar</string>
+
+    <!-- Main -->
+    <string name="main_menu_add">Agregar temporizador</string>
+    <string name="main_menu_info">Información de la aplicación</string>
+    <string name="main_add_timer_dialog_title">Agregar temporizador</string>
+    <string name="main_delete_timer_dialog_title">Eliminar un temporizador</string>
+    <string name="main_delete_timer_dialog_message">¿Seguro que quieres eliminar "%1$s"?</string>
+    <string name="main_timer_start">empezar</string>
+    <string name="main_timer_stop">parar</string>
+    <string name="main_timer_reset">restablecer</string>
+    <string name="main_name_change_dialog_title">Renombrar</string>
+    <string name="main_timer_hour_unit">：</string>
+    <string name="main_timer_minute_unit">：</string>
+    <string name="main_timer_second_unit"></string>
+    <string name="main_timer_select_dialog_title">Por favor seleccione una hora</string>
+    <string name="main_notification_text">"%1$s" ha finalizado</string>
+
+    <!-- AppInfo -->
+    <string name="app_info_title">Información de la aplicación</string>
+    <string name="app_info_privacy">Política de privacidad</string>
+    <string name="app_info_oss">Licencia de código abierto</string>
+    <string name="app_info_version">Versión de la aplicación</string>
+</resources>
