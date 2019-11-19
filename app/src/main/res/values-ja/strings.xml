@@ -1,0 +1,28 @@
+<resources>
+    <!-- Common -->
+    <string name="app_name">CountDown</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- Main -->
+    <string name="main_menu_add">タイマーの追加</string>
+    <string name="main_menu_info">アプリ情報</string>
+    <string name="main_add_timer_dialog_title">タイマーの追加</string>
+    <string name="main_delete_timer_dialog_title">タイマーの削除</string>
+    <string name="main_delete_timer_dialog_message">「%1$s」を削除しますか？</string>
+    <string name="main_timer_start">start</string>
+    <string name="main_timer_stop">stop</string>
+    <string name="main_timer_reset">reset</string>
+    <string name="main_name_change_dialog_title">名前の変更</string>
+    <string name="main_timer_hour_unit">時間</string>
+    <string name="main_timer_minute_unit">分</string>
+    <string name="main_timer_second_unit">秒</string>
+    <string name="main_timer_select_dialog_title">時間を選択してください</string>
+    <string name="main_notification_text">「%1$s」が終了しました</string>
+
+    <!-- AppInfo -->
+    <string name="app_info_title">アプリ情報</string>
+    <string name="app_info_privacy">プライバシーポリシー</string>
+    <string name="app_info_oss">オープンソースライセンス</string>
+    <string name="app_info_version">アプリバージョン</string>
+</resources>

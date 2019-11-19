@@ -1,0 +1,28 @@
+<resources>
+    <!-- Common -->
+    <string name="app_name">倒数计时</string>
+    <string name="ok">OK</string>
+    <string name="cancel">取消</string>
+
+    <!-- Main -->
+    <string name="main_menu_add">添加计时器</string>
+    <string name="main_menu_info">应用程式资讯</string>
+    <string name="main_add_timer_dialog_title">添加计时器</string>
+    <string name="main_delete_timer_dialog_title">删除计时器</string>
+    <string name="main_delete_timer_dialog_message">您确定要删除“%1$s”吗？</string>
+    <string name="main_timer_start">开始</string>
+    <string name="main_timer_stop">停止</string>
+    <string name="main_timer_reset">重设</string>
+    <string name="main_name_change_dialog_title">重命名</string>
+    <string name="main_timer_hour_unit">：</string>
+    <string name="main_timer_minute_unit">：</string>
+    <string name="main_timer_second_unit"></string>
+    <string name="main_timer_select_dialog_title">请选择时间</string>
+    <string name="main_notification_text">“%1$s”已结束</string>
+
+    <!-- AppInfo -->
+    <string name="app_info_title">应用程式资讯</string>
+    <string name="app_info_privacy">私隐政策</string>
+    <string name="app_info_oss">开源许可证</string>
+    <string name="app_info_version">应用程式版本</string>
+</resources>
